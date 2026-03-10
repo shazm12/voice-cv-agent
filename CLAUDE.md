@@ -75,3 +75,6 @@ After starting ngrok, set the webhook in Twilio Console:
 ## LLM Prompt Convention
 
 System prompt instructs the LLM to answer in 2–3 sentences max (voice-friendly brevity). Resume text is injected as part of the system prompt, not as a user message.
+
+# Github Related Instructions
+- Please follow this github documentation whenever writing commits:https://www.conventionalcommits.org/en/v1.0.0/
