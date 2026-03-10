@@ -4,16 +4,19 @@ from langchain_core.output_parsers import StrOutputParser
 from dotenv import load_dotenv
 
 
-def answer(question: str, resume_text: str) ->  str: 
+load_dotenv()
+
+
+def answer(question: str, resume_text: str) -> str:
     llm = ChatGroq(
         model="llama-3.3-70b-versatile",
         temperature=0.2,
         max_retries=2
     )
-    
+
     prompt = ChatPromptTemplate.from_messages([
-        ("system", 
-        """
+        ("system",
+         """
         You are a helpful Talent assistant who helps users to answer questions about the candidates profiles based on the resume text provided. {resume_text}
         
         Answer the question based on the resume text provided. If the answer is not found in the resume text, say "Sorry, I don't know the answer to that question."
@@ -25,8 +28,7 @@ def answer(question: str, resume_text: str) ->  str:
         """),
         ("human", "{question}")
     ])
-    
-    chain = prompt | llm | StrOutputParser()
-    
-    return chain.invoke({"question": question, "resume_text": resume_text})
 
+    chain = prompt | llm | StrOutputParser()
+
+    return chain.invoke({"question": question, "resume_text": resume_text})
