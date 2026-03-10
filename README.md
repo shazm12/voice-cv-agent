@@ -19,4 +19,3 @@ A phone-based AI assistant that answers questions about a resume over a real cal
 |---|---|
 | `POST /voice` | Entry point for an incoming call — greets the caller and starts listening |
 | `POST /transcribe` | Receives the caller's recorded audio, transcribes it, generates an answer, and speaks it back |
-| `GET /token` | Issues a browser-based access token so the agent can be tested without a physical phone |
