@@ -78,3 +78,5 @@ System prompt instructs the LLM to answer in 2–3 sentences max (voice-friendly
 
 # Github Related Instructions
 - Please follow this github documentation whenever writing commits:https://www.conventionalcommits.org/en/v1.0.0/
+- Follow the commit messaging conventions as it is a must you must adhere to the
+  rules given in the documentation.
