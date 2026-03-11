@@ -4,9 +4,9 @@ from twilio.twiml.voice_response import VoiceResponse
 import httpx
 import os
 from dotenv import load_dotenv
-from resume_parser import load_resume
-from transcriber import transcribe_audio
-from llm_client import answer
+from utils.resume_parser import load_resume
+from utils.transcriber import transcribe_audio
+from agent import answer
 
 
 load_dotenv()
