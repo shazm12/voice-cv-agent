@@ -166,6 +166,44 @@ GROQ_API_KEY=gsk_xxxxxxxxxxxxxxxx
 
 ---
 
+## Phase 2 — GitHub Tool Calling (Agent Upgrade)
+
+The LLM is being upgraded from a simple prompt-response chain to a **tool-calling agent**. This allows callers to ask questions about GitHub activity (repos, projects, profile) in addition to the resume.
+
+### What Changes
+
+- `llm_client.py`: Replace the static LCEL chain with a `bind_tools` agentic loop. The LLM can now decide at runtime whether to call a GitHub tool or answer directly.
+- `github_tools.py` (new): PyGithub client + 3 read-only LangChain tools exposed to the LLM.
+- `pyproject.toml`: Add `PyGithub>=2.6.1`.
+- `.env`: Add `GITHUB_TOKEN` (classic PAT, `public_repo` read scope).
+- `main.py`: No changes — `answer()` signature is preserved.
+
+### GitHub Tools Available to the Agent
+
+| Tool | Trigger |
+|---|---|
+| `list_public_repos` | "What are your GitHub projects?" |
+| `get_repo_details` | "Tell me about your [repo] project" |
+| `get_github_profile_summary` | "What does your GitHub look like?" |
+
+### Agentic Loop Design
+
+```
+HumanMessage (question)
+        │
+   LLM (bind_tools)
+        │
+   tool_calls?  ──yes──► execute tool(s) ──► ToolMessage(result)
+        │                                           │
+       no                                     back to LLM
+        │
+   Final answer (2–3 sentences, voice-friendly)
+```
+
+Max 4 iterations to prevent runaway tool calls. Every tool catches exceptions and returns a graceful fallback string — a GitHub API failure never breaks the voice call.
+
+---
+
 ## Future Upgrades (post-POC)
 
 - Replace `<Say>` with ElevenLabs TTS for a natural voice
